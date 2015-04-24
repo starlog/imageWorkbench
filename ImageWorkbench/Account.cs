@@ -32,6 +32,7 @@ namespace ImageWorkbench
             }
             Storage.BasePath = textBox_BasePath.Text;
             ConfigSaver.Save();
+            ConfigSaver.Load();
             this.Close();
         }
 

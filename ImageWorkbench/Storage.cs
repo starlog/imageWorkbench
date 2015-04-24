@@ -103,7 +103,7 @@ namespace ImageWorkbench
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show(@"ImageWorkbench.cfg 파일 오류");
             }

@@ -38,37 +38,45 @@ namespace ImageWorkbench
 
         private void Event_Load(object sender, EventArgs e)
         {
-            using (var client = new WebClient())
+            try
             {
-                client.Credentials = new NetworkCredential(Storage.AccountId,Storage.AccountPassword);
-
-                foreach (var record in WorkImage.ConvertedImages)
+                using (var client = new WebClient())
                 {
-                    var _basePath = "";
+                    client.Credentials = new NetworkCredential(Storage.AccountId, Storage.AccountPassword);
 
-                    if (!Storage.BasePath.StartsWith("/"))
+                    foreach (var record in WorkImage.ConvertedImages)
                     {
-                        _basePath = "/" + Storage.BasePath;
+                        var _basePath = "";
+
+                        if (!Storage.BasePath.StartsWith("/"))
+                        {
+                            _basePath = "/" + Storage.BasePath;
+                        }
+                        else
+                        {
+                            _basePath = Storage.BasePath;
+                        }
+
+                        if (!Storage.BasePath.EndsWith("/"))
+                        {
+                            _basePath += "/";
+                        }
+
+
+                        var _localPath = @".\" + WorkImage.ImageFolderName + @"\" + record.FileName;
+
+                        SetText(String.Format("파일 {0} 업로드 시작....", record.FileName));
+                        client.UploadFile("ftp://" + Storage.FtpAddress + _basePath + record.FileName, "STOR", _localPath);
+                        SetTextLine(String.Format("파일 {0} 업로드 완료", record.FileName));
                     }
-                    else
-                    {
-                        _basePath = Storage.BasePath;
-                    }
-
-                    if (!Storage.BasePath.EndsWith("/"))
-                    {
-                        _basePath += "/";
-                    }
-
-
-                    var _localPath = @".\" + WorkImage.ImageFolderName + @"\" + record.FileName;
-
-                    SetText(String.Format("파일 {0} 업로드 시작....", record.FileName));
-                    client.UploadFile("ftp://" + Storage.FtpAddress + _basePath + record.FileName, "STOR", _localPath);
-                    SetTextLine(String.Format("파일 {0} 업로드 완료", record.FileName));
+                    SetTextLine("----------------------- 모든 파일 업로드 완료 -----------------------");
+                    SetText("Enter로 이 화면을 닫을수 있습니다.");
                 }
-                SetTextLine("----------------------- 모든 파일 업로드 완료 -----------------------");
-                SetText("Enter로 이 화면을 닫을수 있습니다.");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 
