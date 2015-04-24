@@ -26,6 +26,7 @@ namespace ImageWorkbench
         private void button1_Click(object sender, EventArgs e)
         {
             ConfigSaver.Save();
+            ConfigSaver.Load();
             this.Close();
         }
 

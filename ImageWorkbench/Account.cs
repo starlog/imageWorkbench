@@ -28,7 +28,7 @@ namespace ImageWorkbench
             Storage.FtpAddress = textBox_ServerAddress.Text;
             if (!string.IsNullOrEmpty(textBox_Password.Text))
             {
-                Storage.AccountPassword = StringCipher.Encrypt(textBox_Password.Text, StringCipher.PassPhrase);
+                Storage.AccountPassword = textBox_Password.Text;
             }
             Storage.BasePath = textBox_BasePath.Text;
             ConfigSaver.Save();

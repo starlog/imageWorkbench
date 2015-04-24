@@ -116,7 +116,7 @@ namespace ImageWorkbench
             var xx = new StorageTemp
             {
                 AccountId = Storage.AccountId,
-                AccountPassword = Storage.AccountPassword,
+                AccountPassword = StringCipher.Encrypt(Storage.AccountPassword, StringCipher.PassPhrase),
                 BasePath = Storage.BasePath,
                 FtpAddress = Storage.FtpAddress,
                 ImageSetups = new List<imageSetup>()
