@@ -10,6 +10,8 @@ namespace ImageWorkbench
 {
     public partial class Form1 : Form
     {
+        private ImageDisplay saved;
+
         public Form1()
         {
             InitializeComponent();
@@ -54,6 +56,8 @@ namespace ImageWorkbench
                                 };
 
                                 xx.Show();
+
+                                saved = xx;
                             }
                         }
                     }
@@ -182,6 +186,27 @@ namespace ImageWorkbench
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             this.LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            this.LayoutMdi(MdiLayout.TileHorizontal);
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e) //원본 열기
+        {
+            this.Menu_File_Open(sender, e);
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e) //이미지 생성
+        {
+            this.toolStripMenuItem1_Click(sender, e);
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            this.uploadAllToolStripMenuItem_Click(sender, e);
+            ;
         }
     }
 }
