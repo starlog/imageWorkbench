@@ -85,7 +85,7 @@ namespace ImageWorkbench
                                 var image = imageFactory.Load(inStream);
                                 var targetSize = new Size(int.Parse(convertinfo.SizeX), int.Parse(convertinfo.SizeY));
 
-                                image.Resize(targetSize).Format(format).Save(outStream);
+                                image.Resize(targetSize).Format(format).Quality(convertinfo.Quality).Save(outStream);
 
                                 targetImage.Image = Image.FromStream(outStream);
 

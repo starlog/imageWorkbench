@@ -14,6 +14,7 @@ namespace ImageWorkbench
         public string Postfix { get; set; }
         public string SizeX { get; set; }
         public string SizeY { get; set; }
+        public int Quality { get; set; }
     }
 
     public class TargetImage
@@ -96,7 +97,8 @@ namespace ImageWorkbench
                     {
                         Postfix = record.Postfix,
                         SizeX = record.SizeX,
-                        SizeY = record.SizeY
+                        SizeY = record.SizeY,
+                        Quality = record.Quality
                     };
 
                     Storage.ImageSetups.Add(imageEntry);
@@ -130,7 +132,8 @@ namespace ImageWorkbench
                     {
                         Postfix = record.Postfix,
                         SizeX = record.SizeX,
-                        SizeY = record.SizeY
+                        SizeY = record.SizeY,
+                        Quality = record.Quality
                     };
 
                     xx.ImageSetups.Add(entry);
