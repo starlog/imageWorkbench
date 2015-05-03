@@ -39,7 +39,7 @@ namespace ImageWorkbench
                                 var image = imageFactory.Load(inStream);
                                 WorkImage.OriginalFileName = openFileDialog.FileName; //Save org file name
 
-                                image.Format(format).Save(outStream);
+                                image.Format(format).Quality(100).Save(outStream);
 
                                 WorkImage.OriginalImage = Image.FromStream(outStream);
 
