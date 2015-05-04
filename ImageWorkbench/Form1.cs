@@ -18,54 +18,60 @@ namespace ImageWorkbench
             toolStripStatusLabel1.Text = @"시스템 준비완료";
         }
 
+        private void LoadMainImage(string fileName)
+        {
+            try
+            {
+                WorkImage.OriginalImageBytes = File.ReadAllBytes(fileName);
+
+                using (var inStream = new MemoryStream(WorkImage.OriginalImageBytes))
+                {
+                    using (var outStream = new MemoryStream())
+                    {
+                        using (var imageFactory = new ImageFactory(true))
+                        {
+                            ISupportedImageFormat format = new JpegFormat();
+
+                            var image = imageFactory.Load(inStream);
+                            WorkImage.OriginalFileName = fileName; //Save org file name
+
+                            image.Format(format).Quality(100).Save(outStream);
+
+                            WorkImage.OriginalImage = Image.FromStream(outStream);
+
+                            var filename1 = WorkImage.OriginalFileName.Split('\\').ToArray();
+                            var filename2 = filename1[filename1.Count() - 1];
+
+
+                            WorkImage.OriginalImage.Save(WorkImage.ImageFolderName + @"\" + filename2);
+
+                            var xx = new ImageDisplay("원본 이미지", WorkImage.OriginalImage)
+                            {
+                                StartPosition = FormStartPosition.CenterParent,
+                                MdiParent = this
+                            };
+
+                            xx.Show();
+
+                            saved = xx;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                toolStripStatusLabel1.Text = ex.Message;
+            }
+            
+        }
+        
         private void Menu_File_Open(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    WorkImage.OriginalImageBytes = File.ReadAllBytes(openFileDialog.FileName);
-
-                    using (var inStream = new MemoryStream(WorkImage.OriginalImageBytes))
-                    {
-                        using (var outStream = new MemoryStream())
-                        {
-                            using (var imageFactory = new ImageFactory(true))
-                            {
-                                ISupportedImageFormat format = new JpegFormat();
-
-                                var image = imageFactory.Load(inStream);
-                                WorkImage.OriginalFileName = openFileDialog.FileName; //Save org file name
-
-                                image.Format(format).Quality(100).Save(outStream);
-
-                                WorkImage.OriginalImage = Image.FromStream(outStream);
-
-                                var filename1 = WorkImage.OriginalFileName.Split('\\').ToArray();
-                                var filename2 = filename1[filename1.Count() - 1];
-
-
-                                WorkImage.OriginalImage.Save(WorkImage.ImageFolderName + @"\" + filename2);
-
-                                var xx = new ImageDisplay("원본 이미지", WorkImage.OriginalImage)
-                                {
-                                    StartPosition = FormStartPosition.CenterParent,
-                                    MdiParent = this
-                                };
-
-                                xx.Show();
-
-                                saved = xx;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    toolStripStatusLabel1.Text = ex.Message;
-                }
+                LoadMainImage(openFileDialog.FileName);
             }
         }
 
@@ -207,6 +213,32 @@ namespace ImageWorkbench
         {
             this.uploadAllToolStripMenuItem_Click(sender, e);
             ;
+        }
+
+        private void drag_drop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                var name = (string[]) e.Data.GetData(DataFormats.FileDrop);
+
+                if (name[0].ToLower().EndsWith("jpg"))
+                {
+                    LoadMainImage(name[0]);
+                }
+                else
+                {
+                    MessageBox.Show(@"JPG파일만 허용됩니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                toolStripStatusLabel1.Text = @"에러:"+ex.Message;
+            }
+        }
+
+        private void drag_enter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
         }
     }
 }

@@ -144,14 +144,14 @@
             // accountToolStripMenuItem
             // 
             this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.accountToolStripMenuItem.Text = "계정";
             this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
             // 
             // imageResolutionToolStripMenuItem
             // 
             this.imageResolutionToolStripMenuItem.Name = "imageResolutionToolStripMenuItem";
-            this.imageResolutionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.imageResolutionToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.imageResolutionToolStripMenuItem.Text = "이미지 해상도";
             this.imageResolutionToolStripMenuItem.Click += new System.EventHandler(this.imageResolutionToolStripMenuItem_Click);
             // 
@@ -293,6 +293,7 @@
             // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1128, 599);
@@ -305,6 +306,8 @@
             this.Name = "Form1";
             this.Text = "Image Workbench";
             this.Load += new System.EventHandler(this.build_environment);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.drag_drop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.drag_enter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
